@@ -1,5 +1,5 @@
-from random import randint
 import pygame
+from random import randint
 
 # Константы для размеров поля и сетки:
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
@@ -100,8 +100,9 @@ class Snake(GameObject):
         """Конструктор класса Snake"""
         super().__init__()
         self.length = 1
-        self.positions = [(GRID_WIDTH * GRID_SIZE // 2, 
-                           GRID_HEIGHT * GRID_SIZE // 2)]
+        x_cord = GRID_WIDTH * GRID_SIZE // 2
+        y_cord = GRID_HEIGHT * GRID_SIZE // 2
+        self.positions = [(x_cord, y_cord)]
         self.direction = RIGHT
         self.next_direction = None
         self.body_color = (0, 255, 0)
@@ -115,12 +116,10 @@ class Snake(GameObject):
 
     def move(self):
         """Осуществляет передвижение змеи"""
-        new_cord = (
-            (self.positions[-1][0] + GRID_SIZE * self.direction[0]) 
-            % SCREEN_WIDTH,
-            (self.positions[-1][1] + GRID_SIZE * self.direction[1]) 
-            % SCREEN_HEIGHT,
-        )
+        now_cord = self.positions[-1]
+        x_cord = (now_cord[0] + GRID_SIZE * self.direction[0]) % SCREEN_WIDTH,
+        y_cord = (now_cord[1] + GRID_SIZE * self.direction[1]) % SCREEN_HEIGHT,
+        new_cord = (x_cord, y_cord)
         if new_cord in self.positions:
             raise ValueError("Столкновение змеи с собой")
         else:
